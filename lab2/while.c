@@ -1,7 +1,6 @@
 #include <pthread.h>
 #include <semaphore.h>
 #include <stdio.h>
-#include <stdlib.h>
 #define MAX_PRODUCTS 10 // 最大产品数量
 
 int buffer[MAX_PRODUCTS] = {0}; // 共享缓冲区
@@ -18,10 +17,10 @@ void *producer() { // 生产者
     sem_wait(&empty); // empty的P操作
     sem_wait(&mutex); // mutex的P操作
 
-    buffer[in] = count;
-    printf("producer: %d\n", in);
-    in = (in + 1) % MAX_PRODUCTS;
     count++;
+    buffer[in] = count;
+    printf("producer: %d\n", in + 1);
+    in = (in + 1) % MAX_PRODUCTS;
 
     sem_post(&mutex); // mutex的V操作
     sem_post(&full);  // full的V操作
@@ -34,7 +33,7 @@ void *consumer() { // 消费者
     sem_wait(&mutex); // mutex的P操作
 
     int item = buffer[out];
-    printf("        consumer: %d\n", out);
+    printf("        consumer: %d\n", out + 1);
     out = (out + 1) % MAX_PRODUCTS;
     count--;
 
