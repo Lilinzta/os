@@ -49,7 +49,6 @@ int main() {
   sem_init(&empty, 0, MAX_PRODUCTS); // 设置empty到初值为10
   sem_init(&full, 0, 0);             // 设置full到初值为0
   sem_init(&mutex, 0, MAX_PRODUCTS); // 设置mutex到初值为10
-  // pthread_mutex_init(&mutex, NULL); // 初始化互斥量
   ret = pthread_create(&id_producer, NULL, producer, NULL); // 创建生产者线程
   ret = pthread_create(&id_consumer, NULL, consumer, NULL); // 创建消费者线程
   pthread_join(id_producer, NULL); // 等待生产者线程结束
